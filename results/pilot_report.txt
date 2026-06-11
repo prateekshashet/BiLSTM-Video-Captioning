@@ -1,0 +1,118 @@
+# Video Captioning Pilot Run Report
+
+## Run Information
+- **Date**: [YYYY-MM-DD]
+- **Configuration File**: [config_file.yaml]
+- **Hardware**: [CPU/GPU, # of GPUs, GPU memory]
+- **Duration**: [HH:MM:SS]
+- **Seed**: [random_seed]
+- **Code Version**: [git_commit_hash]
+
+## Dataset
+- **Training Samples**: [number]
+- **Validation Samples**: [number]
+- **Vocabulary Size**: [number]
+- **Average Caption Length**: [number] tokens
+- **Frame Sampling**: [uniform/motion/keyframe]
+- **Frames per Video**: [number]
+
+## Model Configuration
+- **Temporal Encoder**:
+  - Type: [BiLSTM/Transformer]
+  - Hidden Size: [number]
+  - Layers: [number]
+  - Dropout: [0.0-1.0]
+
+- **Decoder**:
+  - Type: [LSTM/GRU/Transformer]
+  - Hidden Size: [number]
+  - Layers: [number]
+  - Embedding Size: [number]
+  - Dropout: [0.0-1.0]
+
+- **Training Parameters**:
+  - Batch Size: [number]
+  - Learning Rate: [number]
+  - Weight Decay: [number]
+  - Max Grad Norm: [number]
+  - Label Smoothing: [0.0-1.0]
+  - Mixed Precision: [True/False]
+
+## Training Metrics
+```
+Epoch  Train Loss  Val Loss  BLEU-4  CIDEr  Coverage Loss  Grounding Acc
+-----  ----------  --------  ------  -----  -------------  --------------
+    1       X.XXXX    X.XXXX  0.XXXX  X.XXX         X.XXXX         0.XXXX
+    2       X.XXXX    X.XXXX  0.XXXX  X.XXX         X.XXXX         0.XXXX
+    ...
+```
+
+## Loss Curves
+[Description of loss curves behavior]
+
+## Sample Predictions
+### Example 1
+- **Video**: [video_id]
+- **Ground Truth**: [reference caption]
+- **Prediction**: [generated caption]
+- **Attention Map**: [description of attention visualization]
+- **Grounding**: [description of grounding results]
+
+[Repeat for 2-3 more examples]
+
+## Issues and Observations
+1. **Training Stability**:
+   - [Any issues with loss divergence, NaN values, etc.]
+
+2. **Performance**:
+   - [How well did the model perform? Any underfitting/overfitting?]
+   - [How do the metrics compare to expectations?]
+
+3. **Memory Usage**:
+   - [Peak GPU/CPU memory usage]
+   - [Any memory leaks or issues?]
+
+4. **Speed**:
+   - [Training iterations per second]
+   - [Bottlenecks identified]
+
+## Grounding Analysis
+- **Grounding Accuracy**: [0.0-1.0]
+- **Qualitative Assessment**:
+  - [How well do the grounding scores align with the described objects?]
+  - [Examples of good and bad grounding]
+
+## Scheduled Sampling
+- **Initial Teacher Forcing Ratio**: 1.0
+- **Final Teacher Forcing Ratio**: [from config]
+- **Effect on Training**: [Did scheduled sampling help? Any issues?]
+
+## Recommendations for Full Training
+1. **Architecture Changes**:
+   - [Suggested modifications to model architecture]
+
+2. **Training Parameters**:
+   - [Recommended learning rate, batch size, etc.]
+
+3. **Data Processing**:
+   - [Suggestions for data augmentation, preprocessing]
+
+4. **Hardware Requirements**:
+   - [Estimated GPU memory and compute needs for full training]
+
+## Readiness for Full Training
+- [ ] Data pipeline is working correctly
+- [ ] Model can overfit small subset
+- [ ] Training is stable
+- [ ] Memory usage is reasonable
+- [ ] Evaluation metrics are being computed correctly
+- [ ] Checkpointing is working
+- [ ] Logging is sufficient
+
+## Next Steps
+1. [Immediate next steps]
+2. [Future improvements]
+3. [Critical issues to address]
+
+## Additional Notes
+[Any other relevant information]

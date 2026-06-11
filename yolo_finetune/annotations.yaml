@@ -1,0 +1,11 @@
+# YOLO Dataset Configuration
+# This is a test configuration with a single class
+
+train: yolo_finetune/images/train  # path to train images
+val: yolo_finetune/images/val      # path to validation images
+
+# Number of classes
+nc: 1
+
+# Class names
+names: ['object']

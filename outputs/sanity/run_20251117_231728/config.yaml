@@ -1,0 +1,65 @@
+data:
+  batch_size: 2
+  frame_sampling: motion
+  mean:
+  - 0.485
+  - 0.456
+  - 0.406
+  num_frames: 32
+  num_workers: 4
+  root_dir: training_videos
+  std:
+  - 0.229
+  - 0.224
+  - 0.225
+model:
+  cnn_backbone: resnet50
+  dropout: 0.4
+  hidden_size: 512
+  num_layers: 2
+  use_transformer: true
+sanity_check:
+  enabled: true
+  output_dir: outputs/sanity
+  sample_videos: 2
+training:
+  clip_grad_norm: 5.0
+  coverage_weight: 0.1
+  epochs: 80
+  grounding_weight: 0.3
+  learning_rate: 3e-4
+  scheduled_sampling:
+    end_epoch: 40
+    end_prob: 0.5
+    start_epoch: 5
+    start_prob: 1.0
+  use_scheduled_sampling: true
+  weight_decay: 1e-4
+yolo:
+  augmentations:
+    fliplr: 0.5
+    flipud: 0.0
+    hsv_h: 0.015
+    hsv_s: 0.5
+    hsv_v: 0.3
+    mixup: 0.1
+    mosaic: true
+    perspective: 0.0
+    scale: 0.5
+    translate: 0.1
+  cache: false
+  confidence_threshold: 0.4
+  finetune:
+    annotations: yolo_finetune/annotations.yaml
+    batch_size: 8
+    best_weights: checkpoints/yolo/yolo_best.pt
+    enabled: true
+    epochs: 20
+    frames_dir: yolo_finetune/frames
+    img_size: 640
+    learning_rate: 1e-4
+    output_dir: checkpoints/yolo
+    patience: 5
+  iou_threshold: 0.45
+  model: yolov8m
+  weights: checkpoints/yolo/yolo_best.pt

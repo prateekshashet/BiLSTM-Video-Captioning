@@ -1,0 +1,101 @@
+# configs/default_config.yaml
+data:
+  root_dir: "training videos"
+  train_annotations: "annotations/train_annotations.json"
+  val_annotations: "annotations/val_annotations.json"
+  num_frames: 8  # Reduced from 16 to 8 for CPU
+  frame_sampling: "uniform"  # More stable than 'motion' on CPU
+  temporal_stride: 2  # Skip frames to reduce computation
+  batch_size: 1  # Keep small for CPU
+  num_workers: 0  # 0 is safest for Windows, increase to 1-2 if needed
+  prefetch_factor: 2  # Add prefetch for better CPU utilization
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+
+
+
+
+
+model:
+  cnn_backbone: "resnet18"  # Lighter backbone for CPU
+  input_dim: 512  # Reduced for resnet18
+  hidden_dim: 256  # Reduced from 512
+  embed_dim: 256   # Reduced from 512
+  object_feat_dim: 512  # Reduced from 1024
+  vocab_size: 5000  # Reduced from 10000
+  num_layers: 1  # Reduced from 2
+  dropout: 0.3  # Slightly reduced
+  bidirectional: False  # Disabled for faster training
+  use_transformer: False  # Disabled for CPU
+  # Grounding module specific
+  decoder_dim: 256  # Should match hidden_dim
+  object_dim: 512  # Should match object_feat_dim
+
+training:
+  epochs: 5  # Reduced for initial testing
+  batch_size: 1  # Match data.batch_size
+  learning_rate: 1e-4  # Reduced from 3e-4 for stability
+  weight_decay: 1e-4
+  clip_grad_norm: 5.0
+  max_grad_norm: 5.0
+  coverage_weight: 0.1
+  grounding_weight: 0.3
+  label_smoothing: 0.0
+  use_scheduled_sampling: False  # Disable for initial testing
+  scheduled_sampling:
+    start_epoch: 5
+    end_epoch: 40
+    final_ratio: 0.5
+  mixed_precision: False  # Keep False for CPU
+
+  lr_scheduler:
+    type: "cosine"          # or "step"
+    min_lr: 1e-6
+    # step scheduler params (only needed if type: step)
+    step_size: 20
+    gamma: 0.1
+
+yolo:
+  model: "yolov8m"
+  weights: "checkpoints/yolo/yolo_best.pt"
+  finetune:
+    enabled: False
+    annotations: "yolo_finetune/annotations.yaml"
+    frames_dir: "yolo_finetune/frames"
+    epochs: 20
+    batch_size: 8
+    img_size: 640
+    learning_rate: 1e-4
+    output_dir: "checkpoints/yolo"
+    best_weights: "checkpoints/yolo/yolo_best.pt"
+    patience: 5
+  confidence_threshold: 0.4
+  iou_threshold: 0.45
+  cache: False
+  augmentations:
+    mosaic: True
+    mixup: 0.1
+    hsv_h: 0.015
+    hsv_s: 0.5
+    hsv_v: 0.3
+    translate: 0.1
+    scale: 0.5
+    perspective: 0.0
+    flipud: 0.0
+    fliplr: 0.5
+
+sanity_check:
+  enabled: True
+  output_dir: "outputs/sanity"
+  sample_videos: 2
+
+logging:
+  log_interval: 10
+  output_root: "outputs"
+
+# Optional: paths and defaults used by script
+paths:
+  output_dir: "outputs"
+  checkpoints_dir: "outputs/checkpoints"
+  logs_dir: "outputs/logs"
+
